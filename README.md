@@ -17,6 +17,7 @@ The project is using
 - React-hook-form
 - React-router-dom
 - React context
+- Styled components
 
 ### To-do
 
@@ -24,4 +25,5 @@ The project is using
 - [X] Layout Sidebar
 - [X] Layoult Topics
 - [X] ContextAPI
+- [ ] Add vote feature
 - [ ] Tests
