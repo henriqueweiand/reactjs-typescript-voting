@@ -9,8 +9,10 @@ export const HomeContainer = styled.main`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
+`
 
-  > * {
-    background: ${(props) => props.theme['gray-800']};
-  }
+export const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `
