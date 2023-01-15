@@ -2,18 +2,19 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useContextSelector } from 'use-context-selector'
 
 import { Wrapper } from './styles'
 import { SidebarProps } from './types'
-import Input from '../Input'
-import Button from '../Button'
+import { Input, Button } from '../'
+import { TopicsContext } from '../../context/TopicsContext'
 
-const newTransactionFormSchema = z.object({
+const newTopicFormSchema = z.object({
   description: z.string(),
-  topic: z.string(),
+  title: z.string(),
 })
 
-type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
+type NewTopicFormInputs = z.infer<typeof newTopicFormSchema>
 
 const Sidebar: React.FC<SidebarProps> = ({ ...rest }: SidebarProps) => {
   const {
@@ -21,12 +22,21 @@ const Sidebar: React.FC<SidebarProps> = ({ ...rest }: SidebarProps) => {
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm<NewTransactionFormInputs>({
-    resolver: zodResolver(newTransactionFormSchema),
+  } = useForm<NewTopicFormInputs>({
+    resolver: zodResolver(newTopicFormSchema),
   })
 
-  async function handleCreateTopic(data: NewTransactionFormInputs) {
-    console.log(data)
+  const createTopics = useContextSelector(TopicsContext, (context) => {
+    return context.createTopics
+  })
+
+  async function handleCreateTopic({ title, description }: NewTopicFormInputs) {
+    createTopics({
+      title,
+      description,
+      createdAt: new Date(),
+    })
+
     reset()
   }
 
@@ -39,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ ...rest }: SidebarProps) => {
           type="text"
           placeholder="Topic"
           required
-          {...register('topic')}
+          {...register('title')}
         />
 
         <Input
